@@ -5,6 +5,13 @@ on:
     branches: [main]
   workflow_dispatch:
 
+# noting by default
+permissions: {}
+
+concurrency:
+  group: production-deploy
+  cancel-in-progress: false
+
 jobs:
   build:
     uses: ./.github/workflows/_build.yaml
@@ -21,6 +28,7 @@ jobs:
         with:
           name: dist
           path: dist/
+          # TODO: Pin to sha of action
       - uses: aws-actions/configure-aws-credentials@v4
         with:
           aws-region: us-east-1
