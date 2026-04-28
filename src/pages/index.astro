@@ -1,13 +1,438 @@
 ---
-const greeting: string = "Hello, world";
+const greeting: string = "Hello, DevOps";
 ---
 
 <html lang="en">
   <head>
     <meta charset="utf-8" />
-    <title>Hello, world</title>
+    <title>DevOps CSS Art</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        background: #0d1117;
+        min-height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        font-family: 'Courier New', monospace;
+        overflow: hidden;
+        gap: 40px;
+      }
+
+      h1 {
+        color: #58a6ff;
+        font-size: 1.2rem;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+        opacity: 0.7;
+      }
+
+      /* ── Infinite Loop / CI Pipeline ── */
+      .pipeline {
+        display: flex;
+        align-items: center;
+        gap: 0;
+        position: relative;
+      }
+
+      .stage {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 6px;
+        position: relative;
+      }
+
+      .stage-box {
+        width: 70px;
+        height: 40px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.55rem;
+        font-weight: bold;
+        letter-spacing: 0.05em;
+        color: #0d1117;
+        position: relative;
+        z-index: 1;
+      }
+
+      .stage-label {
+        font-size: 0.45rem;
+        letter-spacing: 0.1em;
+        text-transform: uppercase;
+      }
+
+      .stage-box.code    { background: #58a6ff; box-shadow: 0 0 14px #58a6ff88; }
+      .stage-box.build   { background: #f0883e; box-shadow: 0 0 14px #f0883e88; }
+      .stage-box.test    { background: #3fb950; box-shadow: 0 0 14px #3fb95088; }
+      .stage-box.deploy  { background: #bc8cff; box-shadow: 0 0 14px #bc8cff88; }
+      .stage-box.monitor { background: #ff7b72; box-shadow: 0 0 14px #ff7b7288; }
+
+      .stage-label.code    { color: #58a6ff; }
+      .stage-label.build   { color: #f0883e; }
+      .stage-label.test    { color: #3fb950; }
+      .stage-label.deploy  { color: #bc8cff; }
+      .stage-label.monitor { color: #ff7b72; }
+
+      /* animated connector arrow */
+      .connector {
+        width: 36px;
+        height: 2px;
+        background: linear-gradient(90deg, transparent, #30363d, transparent);
+        position: relative;
+        margin-bottom: 22px;
+        overflow: hidden;
+      }
+
+      .connector::after {
+        content: '';
+        position: absolute;
+        top: -2px;
+        left: -20px;
+        width: 20px;
+        height: 6px;
+        background: linear-gradient(90deg, transparent, #58a6ff);
+        border-radius: 3px;
+        animation: flow 1.6s linear infinite;
+      }
+
+      .connector:nth-child(4n)::after  { animation-delay: 0.4s; background: linear-gradient(90deg, transparent, #f0883e); }
+      .connector:nth-child(6n)::after  { animation-delay: 0.8s; background: linear-gradient(90deg, transparent, #3fb950); }
+      .connector:nth-child(8n)::after  { animation-delay: 1.2s; background: linear-gradient(90deg, transparent, #bc8cff); }
+
+      @keyframes flow {
+        0%   { left: -20px; opacity: 0; }
+        20%  { opacity: 1; }
+        80%  { opacity: 1; }
+        100% { left: 100%; opacity: 0; }
+      }
+
+      /* ── Docker Container ── */
+      .docker-scene {
+        display: flex;
+        gap: 12px;
+        align-items: flex-end;
+      }
+
+      .container-box {
+        width: 60px;
+        border: 2px solid;
+        border-radius: 6px;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        position: relative;
+      }
+
+      .container-box.c1 { border-color: #58a6ff; height: 80px; }
+      .container-box.c2 { border-color: #3fb950; height: 60px; }
+      .container-box.c3 { border-color: #bc8cff; height: 100px; }
+      .container-box.c4 { border-color: #f0883e; height: 70px; }
+
+      .container-header {
+        font-size: 0.4rem;
+        text-align: center;
+        padding: 3px 2px;
+        font-weight: bold;
+        letter-spacing: 0.05em;
+      }
+
+      .c1 .container-header { background: #58a6ff22; color: #58a6ff; }
+      .c2 .container-header { background: #3fb95022; color: #3fb950; }
+      .c3 .container-header { background: #bc8cff22; color: #bc8cff; }
+      .c4 .container-header { background: #f0883e22; color: #f0883e; }
+
+      .container-body {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 4px;
+        padding: 4px;
+      }
+
+      .process-bar {
+        width: 80%;
+        height: 4px;
+        border-radius: 2px;
+        animation: pulse-bar 2s ease-in-out infinite;
+      }
+
+      .c1 .process-bar { background: #58a6ff55; }
+      .c2 .process-bar { background: #3fb95055; }
+      .c3 .process-bar { background: #bc8cff55; }
+      .c4 .process-bar { background: #f0883e55; }
+
+      .process-bar:nth-child(2) { width: 60%; animation-delay: 0.3s; }
+      .process-bar:nth-child(3) { width: 70%; animation-delay: 0.6s; }
+
+      @keyframes pulse-bar {
+        0%, 100% { opacity: 0.3; }
+        50%       { opacity: 1; }
+      }
+
+      /* ── Git Branch Tree ── */
+      .git-tree {
+        position: relative;
+        width: 200px;
+        height: 120px;
+      }
+
+      .git-tree svg {
+        width: 100%;
+        height: 100%;
+      }
+
+      /* ── Heartbeat / Monitor ── */
+      .monitor-screen {
+        width: 260px;
+        height: 80px;
+        border: 2px solid #30363d;
+        border-radius: 8px;
+        background: #010409;
+        position: relative;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        padding: 0 10px;
+      }
+
+      .monitor-screen::before {
+        content: 'PROD';
+        position: absolute;
+        top: 6px;
+        left: 10px;
+        font-size: 0.4rem;
+        color: #3fb950;
+        letter-spacing: 0.15em;
+      }
+
+      .monitor-screen::after {
+        content: '● LIVE';
+        position: absolute;
+        top: 6px;
+        right: 10px;
+        font-size: 0.4rem;
+        color: #3fb950;
+        animation: blink 1s step-end infinite;
+      }
+
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50%       { opacity: 0; }
+      }
+
+      .heartbeat-line {
+        width: 100%;
+        height: 40px;
+        position: relative;
+      }
+
+      .heartbeat-line svg {
+        width: 200%;
+        height: 100%;
+        animation: scroll-left 3s linear infinite;
+      }
+
+      @keyframes scroll-left {
+        0%   { transform: translateX(0); }
+        100% { transform: translateX(-50%); }
+      }
+
+      /* ── Kubernetes Pods ── */
+      .k8s-cluster {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 8px;
+      }
+
+      .k8s-label {
+        font-size: 0.45rem;
+        color: #8b949e;
+        letter-spacing: 0.2em;
+        text-transform: uppercase;
+      }
+
+      .pods-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 28px);
+        gap: 6px;
+      }
+
+      .pod {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        border: 2px solid #3fb950;
+        background: #3fb95015;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.35rem;
+        color: #3fb950;
+        animation: pod-pulse 2.4s ease-in-out infinite;
+      }
+
+      .pod:nth-child(2) { animation-delay: 0.3s; }
+      .pod:nth-child(3) { animation-delay: 0.6s; }
+      .pod:nth-child(4) { animation-delay: 0.9s; }
+      .pod:nth-child(5) { animation-delay: 1.2s; border-color: #f0883e; color: #f0883e; background: #f0883e15; }
+      .pod:nth-child(6) { animation-delay: 1.5s; }
+      .pod:nth-child(7) { animation-delay: 1.8s; }
+      .pod:nth-child(8) { animation-delay: 2.1s; border-color: #58a6ff; color: #58a6ff; background: #58a6ff15; }
+
+      @keyframes pod-pulse {
+        0%, 100% { transform: scale(1);    box-shadow: none; }
+        50%       { transform: scale(1.12); box-shadow: 0 0 8px currentColor; }
+      }
+
+      /* ── bottom tagline ── */
+      .tagline {
+        font-size: 0.5rem;
+        color: #30363d;
+        letter-spacing: 0.3em;
+        text-transform: uppercase;
+      }
+    </style>
   </head>
   <body>
-    <h1>{greeting}</h1>
+
+    <h1>⚙ CI / CD Pipeline ⚙</h1>
+
+    <!-- Pipeline stages -->
+    <div class="pipeline">
+      <div class="stage">
+        <div class="stage-box code">CODE</div>
+        <span class="stage-label code">code</span>
+      </div>
+      <div class="connector"></div>
+      <div class="stage">
+        <div class="stage-box build">BUILD</div>
+        <span class="stage-label build">build</span>
+      </div>
+      <div class="connector"></div>
+      <div class="stage">
+        <div class="stage-box test">TEST</div>
+        <span class="stage-label test">test</span>
+      </div>
+      <div class="connector"></div>
+      <div class="stage">
+        <div class="stage-box deploy">DEPLOY</div>
+        <span class="stage-label deploy">deploy</span>
+      </div>
+      <div class="connector"></div>
+      <div class="stage">
+        <div class="stage-box monitor">MONITOR</div>
+        <span class="stage-label monitor">monitor</span>
+      </div>
+    </div>
+
+    <!-- Docker containers -->
+    <div class="docker-scene">
+      <div class="container-box c1">
+        <div class="container-header">api</div>
+        <div class="container-body">
+          <div class="process-bar"></div>
+          <div class="process-bar"></div>
+          <div class="process-bar"></div>
+        </div>
+      </div>
+      <div class="container-box c2">
+        <div class="container-header">db</div>
+        <div class="container-body">
+          <div class="process-bar"></div>
+          <div class="process-bar"></div>
+        </div>
+      </div>
+      <div class="container-box c3">
+        <div class="container-header">web</div>
+        <div class="container-body">
+          <div class="process-bar"></div>
+          <div class="process-bar"></div>
+          <div class="process-bar"></div>
+        </div>
+      </div>
+      <div class="container-box c4">
+        <div class="container-header">cache</div>
+        <div class="container-body">
+          <div class="process-bar"></div>
+          <div class="process-bar"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Git branch tree -->
+    <div class="git-tree">
+      <svg viewBox="0 0 200 120" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- main branch line -->
+        <line x1="30" y1="60" x2="170" y2="60" stroke="#58a6ff" stroke-width="2"/>
+        <!-- feature branch -->
+        <path d="M 70 60 Q 80 60 90 30 L 150 30" stroke="#3fb950" stroke-width="2" fill="none"/>
+        <!-- hotfix branch -->
+        <path d="M 90 60 Q 100 60 110 90 L 150 90" stroke="#f0883e" stroke-width="2" fill="none"/>
+        <!-- merge back -->
+        <path d="M 150 30 Q 160 30 165 60" stroke="#3fb950" stroke-width="2" fill="none" stroke-dasharray="4 3"/>
+        <!-- commits on main -->
+        <circle cx="30"  cy="60" r="5" fill="#58a6ff"/>
+        <circle cx="70"  cy="60" r="5" fill="#58a6ff"/>
+        <circle cx="90"  cy="60" r="5" fill="#58a6ff"/>
+        <circle cx="130" cy="60" r="5" fill="#58a6ff"/>
+        <circle cx="170" cy="60" r="5" fill="#58a6ff" opacity="0.5"/>
+        <!-- commits on feature -->
+        <circle cx="110" cy="30" r="4" fill="#3fb950"/>
+        <circle cx="150" cy="30" r="4" fill="#3fb950"/>
+        <!-- commits on hotfix -->
+        <circle cx="130" cy="90" r="4" fill="#f0883e"/>
+        <circle cx="150" cy="90" r="4" fill="#f0883e"/>
+        <!-- labels -->
+        <text x="22" y="78" font-size="7" fill="#58a6ff" font-family="monospace">main</text>
+        <text x="96" y="26" font-size="7" fill="#3fb950" font-family="monospace">feat</text>
+        <text x="108" y="104" font-size="7" fill="#f0883e" font-family="monospace">fix</text>
+        <!-- HEAD indicator -->
+        <text x="158" y="52" font-size="6" fill="#bc8cff" font-family="monospace">HEAD</text>
+      </svg>
+    </div>
+
+    <!-- Production monitor -->
+    <div class="monitor-screen">
+      <div class="heartbeat-line">
+        <svg viewBox="0 0 480 40" preserveAspectRatio="none">
+          <polyline
+            points="0,20 40,20 50,5 60,35 70,20 110,20 120,5 130,35 140,20 180,20 190,5 200,35 210,20 250,20 260,5 270,35 280,20 320,20 330,5 340,35 350,20 390,20 400,5 410,35 420,20 480,20"
+            fill="none"
+            stroke="#3fb950"
+            stroke-width="1.5"
+          />
+        </svg>
+      </div>
+    </div>
+
+    <!-- Kubernetes pods -->
+    <div class="k8s-cluster">
+      <span class="k8s-label">k8s cluster · 8 pods</span>
+      <div class="pods-grid">
+        <div class="pod">▲</div>
+        <div class="pod">▲</div>
+        <div class="pod">▲</div>
+        <div class="pod">▲</div>
+        <div class="pod">↻</div>
+        <div class="pod">▲</div>
+        <div class="pod">▲</div>
+        <div class="pod">★</div>
+      </div>
+    </div>
+
+    <p class="tagline">build · ship · repeat</p>
+
   </body>
 </html>
